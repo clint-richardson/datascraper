@@ -17,6 +17,7 @@ public class DataScraperConfiguration extends Configuration {
     return template;
   }
 
+
   @JsonProperty
   public void setTemplate(String template) {
     this.template = template;

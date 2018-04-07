@@ -4,8 +4,8 @@ import com.shots.datascraper.api.resources.HelloWorldResource;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
-import com.example.helloworld.resources.HelloWorldResource;
-import com.example.helloworld.health.TemplateHealthCheck;
+import com.shots.datascraper.api.health.ScraperHealthCheck;
+import io.dropwizard.assets.AssetsBundle;
 
 
 public class DataScraper extends Application<DataScraperConfiguration>{
@@ -20,8 +20,8 @@ public class DataScraper extends Application<DataScraperConfiguration>{
   }
 
   @Override
-  public void initialize(Bootstrap<DataScraperConfiguration> bootstrap) {
-    // nothing to do yet
+  public void initialize(final Bootstrap<DataScraperConfiguration> bootstrap) {
+    bootstrap.addBundle(new AssetsBundle("/public/", "/"));
   }
 
   @Override
@@ -31,6 +31,9 @@ public class DataScraper extends Application<DataScraperConfiguration>{
             configuration.getTemplate(),
             configuration.getDefaultName()
     );
+    final ScraperHealthCheck healthCheck =
+            new ScraperHealthCheck(configuration.getTemplate());
+    environment.healthChecks().register("template", healthCheck);
     environment.jersey().register(helloWorldResource);
   }
 
