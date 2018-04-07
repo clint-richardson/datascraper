@@ -1,2 +1,4 @@
 rootProject.name = 'bball.jar'
 
+include :':server'
+
